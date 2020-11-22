@@ -24,10 +24,10 @@ namespace SnakeCLI
         private Thread detectPlayerInput;
         private timers.Timer t;
 
-        public Program()
+        public Program(int width, int height, int bombPct)
         {
-            boardWidth = 15;
-            boardHeight = 10;
+            boardWidth = width;
+            boardHeight = height;
             board = new char[boardWidth, boardHeight];
 
             points = 0;
@@ -84,8 +84,9 @@ namespace SnakeCLI
 
         static void Main(string[] args)
         {
-            Program program = new Program();
-            
+            int width = int.Parse(args[0]);
+            int height = int.Parse(args[1]);
+            Program program = new Program(width, height, 0);       
 
             while(true);
         }
