@@ -45,7 +45,7 @@ namespace SnakeCLI
             heading = Heading.EAST;
             requestHeading = null;
 
-            SpawnFood();
+            SpawnChar(foodChar);
 
             ThreadStart ts = DetectInput;
             detectPlayerInput = new Thread(ts);
@@ -91,7 +91,7 @@ namespace SnakeCLI
             while(true);
         }
 
-        private void SpawnFood()
+        private void SpawnChar(char c)
         {
             bool emptyCell = false;
             while(!emptyCell)
@@ -102,7 +102,7 @@ namespace SnakeCLI
                 if(charAtPosition == floorChar)
                 {
                     emptyCell = true;
-                    board[x,y] = foodChar;
+                    board[x,y] = c;
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace SnakeCLI
             {
                 points++;
                 //SpeedUp();
-                SpawnFood();
+                SpawnChar(foodChar);
                 //if(random.Next(100) < riskOfBomb) SpawnGameObject(GameObjectEnum.BOMB);
             }
         }
