@@ -7,7 +7,7 @@ namespace SnakeCLI
 {
     class Program
     {
-        char floorChar = (char) 79;
+        char floorChar = (char) 46;
         char snakeChar = (char) 35;
         char foodChar = (char) 64;
 
@@ -114,7 +114,6 @@ namespace SnakeCLI
                 t.Stop();
                 Console.WriteLine();
                 Console.WriteLine("GAMEOVER!");
-                Console.WriteLine("SCORE: " + points);
                 Environment.Exit(0);
             } catch (Exception e) {
                 Console.Error.Write(e.InnerException);
@@ -189,6 +188,8 @@ namespace SnakeCLI
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
+            Console.WriteLine("Score:" + points);
         }
 
         int mod(int x, int m) {return (x%m + m)%m;}
