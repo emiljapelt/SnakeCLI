@@ -10,7 +10,8 @@ namespace SnakeCLI
     {
         char floorChar = (char) 46;
         char snakeChar = (char) 35;
-        char foodChar = (char) 64;
+        char foodChar = (char) 79;
+        char bombChar = (char) 88;
 
         private char[,] board;
         private int boardWidth;
@@ -18,6 +19,8 @@ namespace SnakeCLI
         private int points;
         private Random random;
         private SpeedCurve speedCurve;
+        private int bombPct;
+        private bool deathWalls;
 
         private LinkedList<(int w, int h)> snake;
         private Heading heading;
@@ -26,11 +29,14 @@ namespace SnakeCLI
         private Thread detectPlayerInput;
         private timers.Timer t;
 
-        public Program(int width, int height, int bombPct)
+        public Program(int width, int height, int bombPct, bool deathWalls)
         {
             boardWidth = width;
             boardHeight = height;
             board = new char[boardWidth, boardHeight];
+
+            this.bombPct = bombPct;
+            this.deathWalls = deathWalls;
 
             points = 0;
             random = new Random();
@@ -92,7 +98,12 @@ namespace SnakeCLI
         {
             int width = int.Parse(args[0]);
             int height = int.Parse(args[1]);
-            Program program = new Program(width, height, 0);       
+            int bombPct = int.Parse(args[2]);
+
+            bool deathWalls = false;
+            if(args.Length > 3) deathWalls = true;
+
+            Program program = new Program(width, height, bombPct, deathWalls);       
 
             while(true);
         }
@@ -160,7 +171,7 @@ namespace SnakeCLI
             char charAtNextPositon = board[nextPositionXCalculated, nextPositionYCalculated];
             bool eating = false;
             if(charAtNextPositon == foodChar) eating = true;
-            else if (charAtNextPositon == snakeChar) GameOver();
+            else if ((deathWalls && IsOutOfBound(nextPositionTuple)) || charAtNextPositon == snakeChar || charAtNextPositon == bombChar) GameOver();
 
             MoveTo(nextPositionCalculatedTuple, eating);
 
@@ -182,8 +193,14 @@ namespace SnakeCLI
                 points++;
                 SpeedUp();
                 SpawnChar(foodChar);
-                //if(random.Next(100) < riskOfBomb) SpawnGameObject(GameObjectEnum.BOMB);
+                if(random.Next(100) < bombPct) SpawnChar(bombChar);
             }
+        }
+
+        private bool IsOutOfBound((int w, int h) nextPosition)
+        {
+            if(nextPosition.w < 0 || nextPosition.w > boardWidth-1 || nextPosition.h < 0 || nextPosition.h > boardHeight-1) return true;
+            return false;
         }
 
         private void SpeedUp()
