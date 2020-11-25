@@ -189,7 +189,8 @@ namespace SnakeCLI
                 Console.WriteLine();
             }
             Console.WriteLine();
-            Console.WriteLine("Score:" + points);
+            Console.Write("Score:");
+            Console.Write(points);
         }
 
         int mod(int x, int m) {return (x%m + m)%m;}
