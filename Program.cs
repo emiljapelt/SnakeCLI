@@ -17,6 +17,7 @@ namespace SnakeCLI
         private int boardHeight;
         private int points;
         private Random random;
+        private SpeedCurve speedCurve;
 
         private LinkedList<(int w, int h)> snake;
         private Heading heading;
@@ -33,6 +34,8 @@ namespace SnakeCLI
 
             points = 0;
             random = new Random();
+
+            speedCurve = new SpeedCurve(50, 50, 400);
 
             for(int x = 0; x < boardWidth; x++) {
                 for(int y = 0; y < boardHeight; y++) {
@@ -53,7 +56,7 @@ namespace SnakeCLI
             detectPlayerInput.Start();
 
             t = new timers.Timer();
-            t.Interval = 500;
+            t.Interval = speedCurve.CalculateY(points);
             t.Elapsed += Update;
             t.Start();
 
@@ -177,10 +180,15 @@ namespace SnakeCLI
             else
             {
                 points++;
-                //SpeedUp();
+                SpeedUp();
                 SpawnChar(foodChar);
                 //if(random.Next(100) < riskOfBomb) SpawnGameObject(GameObjectEnum.BOMB);
             }
+        }
+
+        private void SpeedUp()
+        {
+            t.Interval = speedCurve.CalculateY(points);
         }
 
         private void PrintBoard()
@@ -195,6 +203,10 @@ namespace SnakeCLI
             stringBuilder.Append("\n");
             stringBuilder.Append("Score: ");
             stringBuilder.Append(points);
+
+            stringBuilder.Append("\n");
+            stringBuilder.Append("Time bwtween updates: ");
+            stringBuilder.Append(speedCurve.CalculateY(points));
 
             Console.WriteLine(stringBuilder);
         }
