@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using timers = System.Timers;
+using System.Text;
 
 namespace SnakeCLI
 {
@@ -182,15 +183,18 @@ namespace SnakeCLI
 
         private void PrintBoard()
         {
+            StringBuilder stringBuilder = new StringBuilder();
             for(int y = 0; y < boardHeight; y++) {
                 for(int x = 0; x < boardWidth; x++) {
-                    Console.Write(board[x,y]);
+                    stringBuilder.Append(board[x,y]);
                 }
-                Console.WriteLine();
+                stringBuilder.Append("\n");
             }
-            Console.WriteLine();
-            Console.Write("Score:");
-            Console.Write(points);
+            stringBuilder.Append("\n");
+            stringBuilder.Append("Score: ");
+            stringBuilder.Append(points);
+
+            Console.WriteLine(stringBuilder);
         }
 
         int mod(int x, int m) {return (x%m + m)%m;}
