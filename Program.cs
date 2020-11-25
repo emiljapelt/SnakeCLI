@@ -56,6 +56,8 @@ namespace SnakeCLI
             t.Interval = 500;
             t.Elapsed += Update;
             t.Start();
+
+            Console.Clear();
         }
 
         public void DetectInput()
@@ -159,7 +161,7 @@ namespace SnakeCLI
 
             MoveTo(nextPositionCalculatedTuple, eating);
 
-            Console.Clear();
+            Console.SetCursorPosition(0,0);
             PrintBoard();
         }
 
