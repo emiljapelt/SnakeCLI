@@ -101,8 +101,17 @@ namespace SnakeCLI
             int bombPct = int.Parse(args[2]);
 
             bool deathWalls = false;
-            if(args.Length > 3) deathWalls = true;
-
+            if(args.Length > 3) 
+            {
+                switch(args[3])
+                {
+                    case "dw":
+                        deathWalls = true;
+                        break;
+                    default:
+                        throw new Exception("***Unknown gamemode");
+                }
+            } 
             Program program = new Program(width, height, bombPct, deathWalls);       
 
             while(true);
@@ -223,7 +232,7 @@ namespace SnakeCLI
 
             stringBuilder.Append("\n");
             stringBuilder.Append("TBU: ");
-            stringBuilder.Append(speedCurve.CalculateY(points));
+            stringBuilder.Append(Math.Round(Convert.ToDecimal(speedCurve.CalculateY(points)), 2));
 
             Console.WriteLine(stringBuilder);
         }
