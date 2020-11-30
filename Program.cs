@@ -222,7 +222,7 @@ namespace SnakeCLI
             stringBuilder.Append(points);
 
             stringBuilder.Append("\n");
-            stringBuilder.Append("Time between updates: ");
+            stringBuilder.Append("TBU: ");
             stringBuilder.Append(speedCurve.CalculateY(points));
 
             Console.WriteLine(stringBuilder);
