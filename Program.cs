@@ -11,7 +11,7 @@ namespace SnakeCLI
         char floorChar = (char) 46;
         char snakeChar = (char) 35;
         char foodChar = (char) 79;
-        char bombChar = (char) 88;
+        char bombChar = '¤';
 
         private char[,] board;
         private int boardWidth;
@@ -139,7 +139,7 @@ namespace SnakeCLI
             {
                 t.Stop();
                 Console.WriteLine();
-                Console.WriteLine("GAMEOVER!");
+                Console.WriteLine("GAME OVER!");
                 Environment.Exit(0);
             } catch (Exception e) {
                 Console.Error.Write(e.InnerException);
