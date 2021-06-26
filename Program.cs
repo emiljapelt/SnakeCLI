@@ -29,6 +29,47 @@ namespace SnakeCLI
         private Thread detectPlayerInput;
         private timers.Timer t;
 
+        static void Main(string[] args)
+        {
+            if (args.Length < 3) 
+            {
+                System.Console.WriteLine("ERROR Missing arguments. Arguments should be: <width> <height> <bombPct> <gamemode>?");
+                return;
+            }
+
+            int width;
+            int height;
+            int bombPct;
+
+            try
+            {
+                width = int.Parse(args[0]);
+                height = int.Parse(args[1]);
+                bombPct = int.Parse(args[2]);
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine("ERROR Invalid arguments. Some argument was expected to be an integer, but was not.");
+                return;
+            }
+
+            bool deathWalls = false;
+            if(args.Length > 3) 
+            {
+                switch(args[3])
+                {
+                    case "dw":
+                        deathWalls = true;
+                        break;
+                    default:
+                        throw new Exception("***Unknown gamemode");
+                }
+            } 
+            Program program = new Program(width, height, bombPct, deathWalls);       
+
+            while(true);
+        }
+
         public Program(int width, int height, int bombPct, bool deathWalls)
         {
             boardWidth = width;
@@ -92,29 +133,6 @@ namespace SnakeCLI
                         break;
                 }
             }
-        }
-
-        static void Main(string[] args)
-        {
-            int width = int.Parse(args[0]);
-            int height = int.Parse(args[1]);
-            int bombPct = int.Parse(args[2]);
-
-            bool deathWalls = false;
-            if(args.Length > 3) 
-            {
-                switch(args[3])
-                {
-                    case "dw":
-                        deathWalls = true;
-                        break;
-                    default:
-                        throw new Exception("***Unknown gamemode");
-                }
-            } 
-            Program program = new Program(width, height, bombPct, deathWalls);       
-
-            while(true);
         }
 
         private void SpawnChar(char c)
