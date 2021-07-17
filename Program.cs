@@ -135,6 +135,7 @@ namespace SnakeCLI
             }
         }
 
+        //Split between spawnBomb and spawnFood, where this becomes spawnBomb, and spawnFood checks that there are atleast 2 empty cells by the food
         private void SpawnChar(char c)
         {
             bool emptyCell = false;
