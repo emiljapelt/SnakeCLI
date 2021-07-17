@@ -96,7 +96,7 @@ namespace SnakeCLI
             heading = Heading.EAST;
             requestHeading = null;
 
-            SpawnChar(foodChar);
+            SpawnFood();
 
             ThreadStart ts = DetectInput;
             detectPlayerInput = new Thread(ts);
@@ -135,8 +135,41 @@ namespace SnakeCLI
             }
         }
 
-        //Split between spawnBomb and spawnFood, where this becomes spawnBomb, and spawnFood checks that there are atleast 2 empty cells by the food
-        private void SpawnChar(char c)
+        private void SpawnFood()
+        {
+            bool validCell = false;
+            while(!validCell)
+            {
+                int y = random.Next(boardHeight);
+                int x = random.Next(boardWidth);
+                var charAtPosition = board[x,y];
+                int emptyCount = 0;
+                if (isEmpty(x-1,y)) emptyCount++;
+                if (isEmpty(x+1,y)) emptyCount++;
+                if (isEmpty(x,y-1)) emptyCount++;
+                if (isEmpty(x,y+1)) emptyCount++;
+                if(isEmpty(x,y) && emptyCount >= 2)
+                {
+                    validCell = true;
+                    board[x,y] = foodChar;
+                }
+            }
+        }
+
+        private bool isEmpty(int x, int y)
+        {
+            try
+            {
+                if(board[x,y] == floorChar) return true;
+                else return false;
+            } 
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private void SpawnBomb()
         {
             bool emptyCell = false;
             while(!emptyCell)
@@ -147,7 +180,7 @@ namespace SnakeCLI
                 if(charAtPosition == floorChar)
                 {
                     emptyCell = true;
-                    board[x,y] = c;
+                    board[x,y] = bombChar;
                 }
             }
         }
@@ -220,8 +253,8 @@ namespace SnakeCLI
             {
                 points++;
                 SpeedUp();
-                SpawnChar(foodChar);
-                if(random.Next(100) < bombPct) SpawnChar(bombChar);
+                SpawnFood();
+                if(random.Next(100) < bombPct) SpawnBomb();
             }
         }
 
